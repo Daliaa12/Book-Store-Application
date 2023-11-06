@@ -19,7 +19,6 @@ public class BookRepositoryMySQL implements BookRepository {
     @Override
     public List<Book> findAll() {
         String sql = "SELECT * FROM book;";
-
         List<Book> books = new ArrayList<>();
         try{
             Statement statement = connection.createStatement();
@@ -33,8 +32,6 @@ public class BookRepositoryMySQL implements BookRepository {
         } catch (SQLException e){
             e.printStackTrace();
         }
-
-
         return books;
     }
 
