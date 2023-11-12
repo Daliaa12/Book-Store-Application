@@ -1,8 +1,10 @@
 import database.JDBConnectionWrapper;
 import model.AudioBook;
 import model.Book;
+import model.EBook;
 import model.builder.AudioBookBuilder;
 import model.builder.BookBuilder;
+import model.builder.EBookBuilder;
 import repository.book.*;
 import service.AudioBookService;
 import service.BookService;
@@ -34,6 +36,12 @@ public class Main {
                 .setTitle("Audio Fram Ursul Polar")
                 .setPublishedDate(LocalDate.of(2010, 6, 2))
                 .setRunTime(6)
+                .build();
+        EBook eBook = new EBookBuilder()
+                .setAuthor("', '', null); SLEEP(20); --")
+                .setTitle("Ebook Fram Ursul Polar")
+                .setPublishedDate(LocalDate.of(2010, 6, 2))
+                .setFormat("pdf")
                 .build();
 
 
