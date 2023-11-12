@@ -1,32 +1,52 @@
 import database.JDBConnectionWrapper;
+import model.AudioBook;
 import model.Book;
+import model.builder.AudioBookBuilder;
 import model.builder.BookBuilder;
-import repository.book.BookRepository;
-import repository.book.BookRepositoryMock;
-import repository.book.BookRepositoryMySQL;
+import repository.book.*;
+import service.AudioBookService;
+import service.BookService;
+import service.BookServiceImpl;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Main {
     public static void main(String[] args){
         System.out.println("Hello world!");
 
         JDBConnectionWrapper connectionWrapper = new JDBConnectionWrapper("test_library");
-        BookRepository bookRepository = new BookRepositoryMySQL(connectionWrapper.getConnection());
+
+
+        BookRepository bookRepository = new BookRepositoryCacheDecorator(
+                new BookRepositoryMySQL(connectionWrapper.getConnection()),
+                new Cache<>()
+        );
+
+        BookService bookService = new BookServiceImpl(bookRepository);
 
         Book book = new BookBuilder()
                 .setAuthor("', '', null); SLEEP(20); --")
                 .setTitle("Fram Ursul Polar")
                 .setPublishedDate(LocalDate.of(2010, 6, 2))
                 .build();
+        AudioBook audiobook = new AudioBookBuilder()
+                .setAuthor("', '', null); SLEEP(20); --")
+                .setTitle("Audio Fram Ursul Polar")
+                .setPublishedDate(LocalDate.of(2010, 6, 2))
+                .setRunTime(6)
+                .build();
 
-        bookRepository.save(book);
-        //bookRepository.findById();
-        //bookRepository.removeAll();
 
-        System.out.println(bookRepository.findAll());
+        bookService.save(book);
 
+
+        System.out.println(bookService.findAll());
+
+
+
+        System.out.println(bookService.findAll());
+        System.out.println(bookService.findAll());
+        System.out.println(bookService.findAll());
 
     }
 }
