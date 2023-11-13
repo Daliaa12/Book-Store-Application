@@ -55,18 +55,15 @@ public class AudioBookRepositoryMySQL implements AudioBookRepository{
 
 
 
-    @Override
+   /* @Override
     public boolean save(AudioBook book) {
-        String sql = "INSERT INTO audiobook VALUES(null, ?, ?, ?);";
-
-
-
+        String sql = "INSERT INTO audiobook (id,author, title, runTime, publishedDate VALUES (null, ?, ?, ?, ?);";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, book.getAuthor());
             preparedStatement.setString(2, book.getTitle());
             preparedStatement.setDate(3, java.sql.Date.valueOf(book.getPublishedDate()));
-
+            preparedStatement.setString(4,String.valueOf(book.getRunTime()));
             int rowsInserted = preparedStatement.executeUpdate();
 
             return (rowsInserted != 1) ? false : true;
@@ -77,6 +74,27 @@ public class AudioBookRepositoryMySQL implements AudioBookRepository{
         }
 
     }
+    */
+   @Override
+   public boolean save(AudioBook book) {
+       String sql = "INSERT INTO audiobook (id, author, title, runTime, publishedDate) VALUES (null, ?, ?, ?, ?);";
+       try {
+           PreparedStatement preparedStatement = connection.prepareStatement(sql);
+           preparedStatement.setString(1, book.getAuthor());
+           preparedStatement.setString(2, book.getTitle());
+           preparedStatement.setInt(3, book.getRunTime());
+           preparedStatement.setDate(4, java.sql.Date.valueOf(book.getPublishedDate()));
+
+           int rowsInserted = preparedStatement.executeUpdate();
+
+           return (rowsInserted != 0);
+       } catch (SQLException e) {
+           e.printStackTrace();
+           return false;
+       }
+   }
+
+
 
     @Override
     public void removeAll() {
@@ -97,8 +115,8 @@ public class AudioBookRepositoryMySQL implements AudioBookRepository{
                 .setId(resultSet.getLong("id"))
                 .setAuthor(resultSet.getString("author"))
                 .setTitle(resultSet.getString("title"))
-                .setPublishedDate(new java.sql.Date((resultSet.getDate("publishedDate")).getTime()).toLocalDate())
                 .setRunTime(resultSet.getInt("runTime"))
+                .setPublishedDate(new java.sql.Date((resultSet.getDate("publishedDate")).getTime()).toLocalDate())
                 .build();
     }
 }

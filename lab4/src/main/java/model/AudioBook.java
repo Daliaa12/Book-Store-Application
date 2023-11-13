@@ -49,4 +49,8 @@ public class AudioBook {
     public void setPublishedDate(LocalDate publishedDate) {
         this.publishedDate = publishedDate;
     }
+    @Override
+    public String toString(){
+        return String.format("Book author: %s | title: %s | RunTime: %s | Published Date: %s .", author, title,runTime, publishedDate);
+    }
 }
