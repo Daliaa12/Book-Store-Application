@@ -37,7 +37,7 @@ public class EBookRepositoryMySQL implements EBookRepository {
 
     @Override
     public Optional<EBook> findById(Long id) {
-        String sql = "SELECT * FROM audiobook WHERE id= ?";
+        String sql = "SELECT * FROM ebook WHERE id= ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setLong(1, id);
@@ -57,14 +57,15 @@ public class EBookRepositoryMySQL implements EBookRepository {
 
     @Override
     public boolean save(EBook ebook) {
-        String sql = "INSERT INTO ebook VALUES(null, ?, ?, ?);";
+        String sql = "INSERT INTO ebook VALUES(null, ?, ?, ?, ?);";
 
         try{
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, ebook.getAuthor());
             preparedStatement.setString(2, ebook.getTitle());
-            preparedStatement.setDate(3, java.sql.Date.valueOf(ebook.getPublishedDate()));
+            preparedStatement.setString(3, ebook.getFormat());
+            preparedStatement.setDate(4, java.sql.Date.valueOf(ebook.getPublishedDate()));
 
             int rowsInserted = preparedStatement.executeUpdate();
 
