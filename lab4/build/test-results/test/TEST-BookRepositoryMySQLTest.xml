@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="BookRepositoryMySQLTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2023-11-13T15:07:32" hostname="LAPTOP-OFDSJVK2" time="0.162">
+  <properties/>
+  <testcase name="testFindAll()" classname="BookRepositoryMySQLTest" time="0.126"/>
+  <testcase name="testSave()" classname="BookRepositoryMySQLTest" time="0.017"/>
+  <testcase name="testRemoveAll()" classname="BookRepositoryMySQLTest" time="0.016"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
