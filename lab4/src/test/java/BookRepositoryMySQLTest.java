@@ -1,5 +1,4 @@
 import model.Book;
-import model.builder.BookBuilder;
 import org.junit.jupiter.api.*;
 import repository.book.BookRepositoryMySQL;
 import java.sql.Connection;
@@ -7,7 +6,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,7 +15,7 @@ class BookRepositoryMySQLTest {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/";
     private static final String TEST_SCHEMA = "test_library";
     private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "Caramidacupatratele1";
 
 
     private static Connection connection;
