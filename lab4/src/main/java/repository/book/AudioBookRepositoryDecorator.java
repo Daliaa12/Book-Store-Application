@@ -1,6 +1,8 @@
 package repository.book;
 
-public abstract class AudioBookRepositoryDecorator implements AudioBookRepository{
+import repository.book.AudioBookRepository;
+
+public abstract class AudioBookRepositoryDecorator implements AudioBookRepository {
 
     protected AudioBookRepository decoratedRepository;
 

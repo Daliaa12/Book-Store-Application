@@ -1,74 +1,49 @@
+import controller.LoginController;
+import database.DatabaseConnectionFactory;
 import database.JDBConnectionWrapper;
-import model.AudioBook;
+import javafx.application.Application;
+import javafx.stage.Stage;
 import model.Book;
-import model.EBook;
-import model.builder.AudioBookBuilder;
 import model.builder.BookBuilder;
-import model.builder.EBookBuilder;
-import repository.book.*;
-import service.*;
+import model.validator.UserValidator;
+import repository.book.BookRepository;
+import repository.book.BookRepositoryCacheDecorator;
+import repository.book.BookRepositoryMySQL;
+import repository.book.Cache;
+import repository.security.RightsRolesRepository;
+import repository.security.RightsRolesRepositoryMySQL;
+import repository.user.UserRepository;
+import repository.user.UserRepositoryMySQL;
+import service.book.BookService;
+import service.book.BookServiceImpl;
+import service.user.AuthenticationService;
+import service.user.AuthenticationServiceMySQL;
+import view.LoginView;
 
+import java.sql.Connection;
 import java.time.LocalDate;
 
-public class Main {
+import static database.Constants.Schemas.PRODUCTION;
+
+public class Main extends Application {
     public static void main(String[] args){
-        System.out.println("Hello world!");
+        launch(args);
+    }
 
-        JDBConnectionWrapper connectionWrapper = new JDBConnectionWrapper("test_library");
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        final Connection connection = new JDBConnectionWrapper(PRODUCTION).getConnection();
 
+        final RightsRolesRepository rightsRolesRepository = new RightsRolesRepositoryMySQL(connection);
+        final UserRepository userRepository = new UserRepositoryMySQL(connection, rightsRolesRepository);
 
-        BookRepository bookRepository = new BookRepositoryCacheDecorator(
-                new BookRepositoryMySQL(connectionWrapper.getConnection()),
-                new Cache<>()
-        );
+        final AuthenticationService authenticationService = new AuthenticationServiceMySQL(userRepository,
+                rightsRolesRepository);
 
-        AudioBookRepository audioBookRepository = new AudioBookRepositoryCacheDecorator(
-                new AudioBookRepositoryMySQL(connectionWrapper.getConnection()),
-                new Cache<>()
-        );
+        final LoginView loginView = new LoginView(primaryStage);
 
-        EBookRepository eBookRepository = new EBookRepositoryCacheDecorator(
-                new EBookRepositoryMySQL(connectionWrapper.getConnection()),
-                new Cache<>()
-        );
+        final UserValidator userValidator = new UserValidator(userRepository);
 
-
-        BookService bookService = new BookServiceImpl(bookRepository);
-        AudioBookService audioBookService=new AudioBookServiceImpl(audioBookRepository);
-        EBookService eBookService=new EBookServiceImpl(eBookRepository);
-
-
-        Book book = new BookBuilder()
-                .setAuthor("', '', null); SLEEP(20); --")
-                .setTitle("Fram Ursul Polar")
-                .setPublishedDate(LocalDate.of(2010, 6, 2))
-                .build();
-        AudioBook audiobook = new AudioBookBuilder()
-                .setAuthor("', '', null); SLEEP(20); --")
-                .setTitle("Audio Fram Ursul Polar")
-                .setPublishedDate(LocalDate.of(2010, 6, 2))
-                .setRunTime(6)
-                .build();
-        EBook eBook = new EBookBuilder()
-                .setAuthor("', '', null); SLEEP(20); --")
-                .setTitle("Ebook Fram Ursul Polar")
-                .setPublishedDate(LocalDate.of(2010, 6, 2))
-                .setFormat("pdf")
-                .build();
-
-
-        bookService.save(book);
-        audioBookService.save(audiobook);
-        eBookService.save(eBook);
-
-
-        System.out.println(bookService.findAll());
-
-        //System.out.println(bookService.findAll());
-        //System.out.println(bookService.findAll());
-        //System.out.println(bookService.findAll());
-        System.out.println(audioBookService.findAll());
-        System.out.println(eBookService.findAll());
-
+        new LoginController(loginView, authenticationService, userValidator);
     }
 }

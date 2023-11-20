@@ -1,18 +1,14 @@
-package service;
+package service.book;
 
 import model.AudioBook;
-import model.Book;
-import model.EBook;
 import repository.book.AudioBookRepository;
-import repository.book.BookRepository;
-import repository.book.BookRepositoryMySQL;
-import repository.book.EBookRepository;
+import service.book.AudioBookService;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-public class AudioBookServiceImpl implements AudioBookService{
+public class AudioBookServiceImpl implements AudioBookService {
     private final AudioBookRepository audioBookRepository;
 
     public AudioBookServiceImpl(AudioBookRepository audioBookRepository){
