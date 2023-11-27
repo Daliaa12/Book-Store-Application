@@ -93,6 +93,7 @@ public class LoginView {
 
     public void setActionTargetText(String text){ this.actiontarget.setText(text);}
 
+
     public void addLoginButtonListener(EventHandler<ActionEvent> loginButtonListener) {
         logInButton.setOnAction(loginButtonListener);
     }

@@ -72,26 +72,17 @@ public class BookRepositoryMySQL implements BookRepository {
 
     @Override
     public boolean save(Book book) {
-        String sql = "INSERT INTO book VALUES(null, ?, ?, ?);";
-
-//        String newSql = "INSERT INTO book VALUES(null, \'" + book.getAuthor() +"\', \'"+ book.getTitle()+"\', null );";
-
-
-
-
+        String sql = "INSERT INTO book VALUES(null, ?, ?, ?, ?, ?);";
 
         try{
-//            Statement statement = connection.createStatement();
-//            statement.executeUpdate(newSql);
-//            return true;
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, book.getAuthor());
             preparedStatement.setString(2, book.getTitle());
             preparedStatement.setDate(3, java.sql.Date.valueOf(book.getPublishedDate()));
-
+            preparedStatement.setInt(4,book.getStock());
+            preparedStatement.setDouble(5,book.getPrice());
             int rowsInserted = preparedStatement.executeUpdate();
-
             return (rowsInserted != 1) ? false : true;
 
         } catch (SQLException e){
@@ -121,6 +112,8 @@ public class BookRepositoryMySQL implements BookRepository {
                 .setAuthor(resultSet.getString("author"))
                 .setTitle(resultSet.getString("title"))
                 .setPublishedDate(new java.sql.Date((resultSet.getDate("publishedDate")).getTime()).toLocalDate())
+                .setStock(resultSet.getInt("stock"))
+                .setPrice(resultSet.getDouble("price"))
                 .build();
     }
 }
