@@ -1,5 +1,6 @@
 package launcher;
 
+import controller.CustomerController;
 import controller.LoginController;
 import database.DatabaseConnectionFactory;
 import javafx.stage.Stage;
@@ -11,6 +12,7 @@ import repository.user.UserRepository;
 import repository.user.UserRepositoryMySQL;
 import service.user.AuthenticationService;
 import service.user.AuthenticationServiceMySQL;
+import view.BookView;
 import view.CustomerView;
 import view.LoginView;
 
@@ -18,7 +20,6 @@ import java.sql.Connection;
 
 public class ComponentFactory {
     private final LoginView loginView;
-    //private final CustomerView customerView;
     private final LoginController loginController;
     private final AuthenticationService authenticationService;
     private final UserRepository userRepository;
@@ -42,7 +43,6 @@ public class ComponentFactory {
         this.loginView = new LoginView(stage);
         this.loginController = new LoginController(loginView, authenticationService);
         this.bookRepository = new BookRepositoryMySQL(connection);
-       // this.customerView=new CustomerView(stage);
     }
 
     public AuthenticationService getAuthenticationService(){
@@ -57,16 +57,17 @@ public class ComponentFactory {
         return rightsRolesRepository;
     }
 
-    //public LoginView getLoginView(){
-       // return loginView;
-   // }
+    public LoginView getLoginView(){
+        return loginView;
+    }
 
     public BookRepository getBookRepository(){
         return bookRepository;
     }
 
-    //public LoginController getLoginController(){
-        //return loginController;
-    //}
+    public LoginController getLoginController(){
+        return loginController;
+   }
+
 
 }
