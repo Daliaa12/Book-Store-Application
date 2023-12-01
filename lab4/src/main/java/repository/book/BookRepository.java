@@ -14,5 +14,5 @@ public interface BookRepository {
     boolean save(Book book);
 
     void removeAll();
-    public void updateStock(Long bookId, int newStock);
+    void updateStock(Long bookId, int newStock);
 }

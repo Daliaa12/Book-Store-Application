@@ -42,19 +42,13 @@ public class BookServiceImpl implements BookService {
     @Override
     public Boolean buyBook(Long bookId, int quantity) {
         Book book = this.findById(bookId);
-
+        int updatedStock=book.getStock() - quantity;
         if (book.getStock() >= quantity) {
-            book.setStock(book.getStock() - quantity);
-            if (bookRepository.save(book)) {
-                return Boolean.TRUE;
-            } else {
-                System.out.println("Failed to save the updated stock. Purchase aborted.");
+               bookRepository.updateStock(bookId,updatedStock);
+               return Boolean.TRUE;
             }
-        } else {
+        else {
             return Boolean.FALSE;
         }
-        return Boolean.FALSE;
     }
-
-
 }
