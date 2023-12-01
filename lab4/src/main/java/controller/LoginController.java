@@ -54,7 +54,6 @@ public class LoginController {
                 loginView.setActionTargetText(registerNotification.getFormattedErrors());
             } else {
                 loginView.setActionTargetText("Register successful!");
-                //CustomerController controller=new CustomerController(new CustomerView(loginView.getStage()));
             }
         }
     }

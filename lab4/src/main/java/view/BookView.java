@@ -23,12 +23,11 @@ public class BookView {
 
     public BookView() {
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library", "root", "");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library", "root", "Caramidacupatratele1");
             bookRepository = new BookRepositoryMySQL(connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         TableColumn<Book, Integer> idColumn = new TableColumn<>("id");
         idColumn.setMinWidth(200);
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));

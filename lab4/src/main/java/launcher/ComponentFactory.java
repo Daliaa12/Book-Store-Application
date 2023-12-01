@@ -12,8 +12,8 @@ import repository.user.UserRepositoryMySQL;
 import service.book.BookService;
 import service.book.BookServiceImpl;
 import service.user.AuthenticationService;
-import service.user.AuthenticationServiceMySQL;
-import view.CustomerView;
+import service.user.AuthenticationServiceImpl;
+import view.EmployeeView;
 import view.LoginView;
 
 import java.sql.Connection;
@@ -27,7 +27,7 @@ public class ComponentFactory {
     private final BookRepository bookRepository;
     private static ComponentFactory instance;
     private final BookService bookService;
-    //private final CustomerView customerView;
+   // private final EmployeeView employeeView;
 
     public static ComponentFactory getInstance(Boolean componentsForTests, Stage stage){
         if (instance == null){
@@ -41,13 +41,12 @@ public class ComponentFactory {
         Connection connection = DatabaseConnectionFactory.getConnectionWrapper(componentsForTests).getConnection();
         this.rightsRolesRepository = new RightsRolesRepositoryMySQL(connection);
         this.userRepository = new UserRepositoryMySQL(connection, rightsRolesRepository);
-        this.authenticationService = new AuthenticationServiceMySQL(userRepository, rightsRolesRepository);
+        this.authenticationService = new AuthenticationServiceImpl(userRepository, rightsRolesRepository);
         this.loginView = new LoginView(stage);
         this.bookRepository = new BookRepositoryMySQL(connection);
         this.bookService=new BookServiceImpl(getBookRepository());
         this.loginController = new LoginController(loginView, authenticationService,bookService);
-
-        //this.customerView=new CustomerView(stage);
+       // this.employeeView=new EmployeeView(stage);
     }
 
     public AuthenticationService getAuthenticationService(){
