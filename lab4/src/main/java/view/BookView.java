@@ -1,5 +1,6 @@
 package view;
 
+import controller.LoginController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -21,8 +22,9 @@ public class BookView {
     private BookRepositoryMySQL bookRepository;
     private TableView<Book> table;
     private Stage stage;
-
-    public BookView() {
+    private LoginController loginController;
+    public BookView(LoginController loginController) {
+        this.loginController = loginController;
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_library", "root", "Caramidacupatratele1");
             bookRepository = new BookRepositoryMySQL(connection);
@@ -74,5 +76,8 @@ public class BookView {
     public ObservableList<Book> getBooks() {
         List<Book> bookList = bookRepository.findAll();
         return FXCollections.observableArrayList(bookList);
+    }
+    public void setLoginController(LoginController loginController) {
+        this.loginController = loginController;
     }
 }

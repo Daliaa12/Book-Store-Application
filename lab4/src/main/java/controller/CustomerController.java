@@ -31,14 +31,18 @@ public class CustomerController {
 
 
     private final CustomerView customerView;
-    private final BookView bookView;
+    private BookView bookView;
+    private final LoginController loginController;
 
-    public CustomerController(CustomerView customerView, BookView bookView) {
+    public CustomerController(CustomerView customerView,LoginController loginController) {
         this.customerView = customerView;
-        this.bookView = bookView;
-
+        this.bookView = new BookView(loginController);
+        this.loginController = loginController;
         this.customerView.addviewBooksButtonListener(new ViewBooksButtonListener());
         this.customerView.addbuyBooksButtonListener(new BuyBooksButtonListener());
+    }
+    public void setBookView(BookView bookView) {
+        this.bookView = bookView;
     }
     private void openViewBookStage() {
         bookView.showStage();

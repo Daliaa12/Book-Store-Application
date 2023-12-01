@@ -1,5 +1,6 @@
 package view;
 
+import controller.LoginController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,16 +26,20 @@ public class CustomerView {
     private Button viewBooksButton;
     private Button buyBookButton;
     private TableView<Book> bookTableView;
-    public CustomerView(Stage primaryStage) {
+    private final LoginController loginController;
+    private final BookView bookView;
+    public CustomerView(Stage primaryStage, LoginController loginController,BookView bookView) {
         primaryStage.setTitle("Customer");
-
+        this.loginController = loginController;
         GridPane gridPane = new GridPane();
         initializeGridPane(gridPane);
         initializeFields(gridPane);
         Scene scene = new Scene(gridPane, 720, 480);
         primaryStage.setScene(scene);
         //initializeBookTableView(gridPane);
+        this.bookView = bookView;
         primaryStage.show();
+
 
     }
     public void initializeBookTableView(GridPane gridPane){

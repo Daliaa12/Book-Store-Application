@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 import model.User;
 import model.validator.Notification;
 import service.user.AuthenticationService;
+import view.BookView;
 import view.CustomerView;
 import view.LoginView;
 
@@ -12,18 +13,18 @@ public class LoginController {
 
     private final LoginView loginView;
     private final AuthenticationService authenticationService;
+    private final BookView bookView;
 
-
-    public LoginController(LoginView loginView, AuthenticationService authenticationService) {
+    public LoginController(LoginView loginView, AuthenticationService authenticationService,BookView bookView) {
         this.loginView = loginView;
         this.authenticationService = authenticationService;
-
+        this.bookView = bookView;
         this.loginView.addLoginButtonListener(new LoginButtonListener());
         this.loginView.addRegisterButtonListener(new RegisterButtonListener());
     }
     private void openCustomerViewStage() {
         Stage customerStage = new Stage();
-        CustomerView customerView = new CustomerView(customerStage);
+        CustomerView customerView = new CustomerView(customerStage,this,bookView);
         customerStage.show();
     }
 

@@ -26,6 +26,9 @@ public class ComponentFactory {
     private final RightsRolesRepository rightsRolesRepository;
     private final BookRepository bookRepository;
     private static ComponentFactory instance;
+    private final CustomerView customerView;
+    private final CustomerController customerController;
+    private final BookView bookView;
 
     public static ComponentFactory getInstance(Boolean componentsForTests, Stage stage){
         if (instance == null){
@@ -35,13 +38,19 @@ public class ComponentFactory {
         return instance;
     }
 
-    public ComponentFactory(Boolean componentsForTests, Stage stage){
+    private ComponentFactory(Boolean componentsForTests, Stage stage){
         Connection connection = DatabaseConnectionFactory.getConnectionWrapper(componentsForTests).getConnection();
         this.rightsRolesRepository = new RightsRolesRepositoryMySQL(connection);
         this.userRepository = new UserRepositoryMySQL(connection, rightsRolesRepository);
         this.authenticationService = new AuthenticationServiceMySQL(userRepository, rightsRolesRepository);
         this.loginView = new LoginView(stage);
-        this.loginController = new LoginController(loginView, authenticationService);
+        this.bookView = new BookView(null);
+        this.loginController = new LoginController(loginView, authenticationService, bookView);
+        this.customerView = new CustomerView(stage, loginController, bookView);
+        this.customerController = new CustomerController(customerView, loginController);
+        this.customerController.setBookView(bookView);  // Set BookView in CustomerController
+        this.bookView.setLoginController(loginController);  // Set LoginController in BookView
+
         this.bookRepository = new BookRepositoryMySQL(connection);
     }
 
@@ -69,5 +78,12 @@ public class ComponentFactory {
         return loginController;
    }
 
+    public CustomerController getCustomerController() {
+        return customerController;
+    }
 
+    public BookView getBookView() {
+        return bookView;
+    }
 }
+
