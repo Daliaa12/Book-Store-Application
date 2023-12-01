@@ -1,19 +1,32 @@
 package view;
 
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Book;
+import repository.book.BookRepository;
+
+import java.util.List;
 
 public class CustomerView {
     private Button viewBooksButton;
     private Button buyBookButton;
+    private TextField quantityTextField;
+    private TextField idBookTextField;
+    private BookRepository bookRepository;
+    private Text actiontarget2;
+
     public CustomerView(Stage primaryStage) {
         primaryStage.setTitle("Customer");
 
@@ -26,24 +39,37 @@ public class CustomerView {
 
     }
 
-    private void initializeFields(GridPane gridPane){
+    private void initializeFields(GridPane gridPane) {
+        Label welcome = new Label("Welcome, dear customer!");
+        GridPane.setHalignment(welcome, HPos.CENTER);
+        gridPane.add(welcome, 0, 0, 4, 1);
+        actiontarget2 = new Text();
+        gridPane.add(actiontarget2, 0, 4, 4, 1);
+        Label message = new Label("If you want to buy a book, please enter the quantity and the id:");
+        gridPane.add(message, 0, 1, 4, 1);
 
+        Label quantityLabel = new Label("Quantity:");
+        Label idLabel = new Label("Book ID:");
 
-        Label welcome = new Label("Welcome,dear customer!");
-        gridPane.add(welcome, 0, 3);
-        viewBooksButton = new Button("View books");
-        HBox signInButtonHBox = new HBox(10);
-        signInButtonHBox.setAlignment(Pos.BOTTOM_RIGHT);
-        signInButtonHBox.getChildren().add(viewBooksButton);
-        gridPane.add(signInButtonHBox, 0, 30);
+        quantityTextField = new TextField();
+        gridPane.add(quantityLabel, 0, 2);
+        gridPane.add(quantityTextField, 1, 2);
 
-        buyBookButton = new Button("Buy books");
-        HBox logInButtonHBox = new HBox(10);
-        logInButtonHBox.setAlignment(Pos.BASELINE_CENTER);
-        logInButtonHBox.getChildren().add(buyBookButton);
-        gridPane.add(logInButtonHBox, 1, 30);
+        idBookTextField = new TextField();
+        gridPane.add(idLabel, 2, 2);
+        gridPane.add(idBookTextField, 3, 2);
 
+        viewBooksButton = new Button("View Books");
+        GridPane.setHalignment(viewBooksButton, HPos.CENTER);
+        gridPane.add(viewBooksButton, 0, 3, 2, 1);
+
+        buyBookButton = new Button("Buy Books");
+        GridPane.setHalignment(buyBookButton, HPos.CENTER);
+        gridPane.add(buyBookButton, 2, 3, 2, 1);
     }
+
+
+
     private void initializeGridPane(GridPane gridPane) {
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setHgap(10);
@@ -51,6 +77,7 @@ public class CustomerView {
         gridPane.setPadding(new Insets(25, 25, 25, 25));
 
     }
+
     public void addviewBooksButtonListener(EventHandler<ActionEvent> viewBooksButtonListener) {
         viewBooksButton.setOnAction(viewBooksButtonListener);
     }
@@ -58,4 +85,13 @@ public class CustomerView {
     public void addbuyBooksButtonListener(EventHandler<ActionEvent> buyBooksButtonListener) {
         buyBookButton.setOnAction(buyBooksButtonListener);
     }
+    public void setActionTargetText(String text){ this.actiontarget2.setText(text);}
+    public String getQuantityForBuy() {
+        return quantityTextField.getText();
+    }
+    public String getIdBookForBuy(){
+        return idBookTextField.getText();
+    }
+
 }
+

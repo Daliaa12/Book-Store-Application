@@ -39,4 +39,22 @@ public class BookServiceImpl implements BookService {
 
         return (int) ChronoUnit.YEARS.between(book.getPublishedDate(), now);
     }
+    @Override
+    public Boolean buyBook(Long bookId, int quantity) {
+        Book book = this.findById(bookId);
+
+        if (book.getStock() >= quantity) {
+            book.setStock(book.getStock() - quantity);
+            if (bookRepository.save(book)) {
+                return Boolean.TRUE;
+            } else {
+                System.out.println("Failed to save the updated stock. Purchase aborted.");
+            }
+        } else {
+            return Boolean.FALSE;
+        }
+        return Boolean.FALSE;
+    }
+
+
 }

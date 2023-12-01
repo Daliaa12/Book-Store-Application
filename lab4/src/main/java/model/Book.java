@@ -1,10 +1,6 @@
 package model;
 
 import java.time.LocalDate;
-import java.util.Date;
-
-// POJO - Plain Old Java Object
-//Java Bean
 public class Book{
 
     private Long id;

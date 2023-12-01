@@ -3,6 +3,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import model.User;
 import model.validator.Notification;
+import service.book.BookService;
 import service.user.AuthenticationService;
 import view.CustomerView;
 import view.LoginView;
@@ -11,12 +12,12 @@ public class LoginController {
 
     private final LoginView loginView;
     private final AuthenticationService authenticationService;
+    private final BookService bookService;
 
-
-    public LoginController(LoginView loginView, AuthenticationService authenticationService) {
+    public LoginController(LoginView loginView, AuthenticationService authenticationService,BookService bookService) {
         this.loginView = loginView;
         this.authenticationService = authenticationService;
-
+        this.bookService = bookService;
         this.loginView.addLoginButtonListener(new LoginButtonListener());
         this.loginView.addRegisterButtonListener(new RegisterButtonListener());
     }
@@ -34,7 +35,8 @@ public class LoginController {
                 loginView.setActionTargetText(loginNotification.getFormattedErrors());
             }else{
                 loginView.setActionTargetText("LogIn Successfull!");
-                CustomerController controller=new CustomerController(new CustomerView(loginView.getStage()));
+                CustomerView customerView = new CustomerView(loginView.getStage());
+                CustomerController customerController = new CustomerController(customerView, bookService);
             }
         }
     }
@@ -52,7 +54,7 @@ public class LoginController {
                 loginView.setActionTargetText(registerNotification.getFormattedErrors());
             } else {
                 loginView.setActionTargetText("Register successful!");
-                CustomerController controller=new CustomerController(new CustomerView(loginView.getStage()));
+                //CustomerController controller=new CustomerController(new CustomerView(loginView.getStage()));
             }
         }
     }

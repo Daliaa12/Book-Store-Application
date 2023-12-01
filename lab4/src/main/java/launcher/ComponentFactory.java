@@ -9,8 +9,11 @@ import repository.security.RightsRolesRepository;
 import repository.security.RightsRolesRepositoryMySQL;
 import repository.user.UserRepository;
 import repository.user.UserRepositoryMySQL;
+import service.book.BookService;
+import service.book.BookServiceImpl;
 import service.user.AuthenticationService;
 import service.user.AuthenticationServiceMySQL;
+import view.CustomerView;
 import view.LoginView;
 
 import java.sql.Connection;
@@ -23,6 +26,8 @@ public class ComponentFactory {
     private final RightsRolesRepository rightsRolesRepository;
     private final BookRepository bookRepository;
     private static ComponentFactory instance;
+    private final BookService bookService;
+    //private final CustomerView customerView;
 
     public static ComponentFactory getInstance(Boolean componentsForTests, Stage stage){
         if (instance == null){
@@ -38,8 +43,11 @@ public class ComponentFactory {
         this.userRepository = new UserRepositoryMySQL(connection, rightsRolesRepository);
         this.authenticationService = new AuthenticationServiceMySQL(userRepository, rightsRolesRepository);
         this.loginView = new LoginView(stage);
-        this.loginController = new LoginController(loginView, authenticationService);
         this.bookRepository = new BookRepositoryMySQL(connection);
+        this.bookService=new BookServiceImpl(getBookRepository());
+        this.loginController = new LoginController(loginView, authenticationService,bookService);
+
+        //this.customerView=new CustomerView(stage);
     }
 
     public AuthenticationService getAuthenticationService(){
@@ -54,17 +62,17 @@ public class ComponentFactory {
         return rightsRolesRepository;
     }
 
-    public LoginView getLoginView(){
-        return loginView;
-    }
+    //public LoginView getLoginView(){
+       // return loginView;
+   // }
 
     public BookRepository getBookRepository(){
         return bookRepository;
     }
 
-    public LoginController getLoginController(){
-        return loginController;
-   }
+  //  public LoginController getLoginController(){
+       // return loginController;
+   //}
 
 
 }

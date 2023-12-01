@@ -104,6 +104,26 @@ public class BookRepositoryMySQL implements BookRepository {
             e.printStackTrace();
         }
     }
+    @Override
+    public void updateStock(Long bookId, int newStock) {
+        String sql = "UPDATE book SET stock = ? WHERE id = ?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, newStock);
+            preparedStatement.setLong(2, bookId);
+
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated == 0) {
+                System.out.println("Book not found with id: " + bookId);
+            } else {
+                System.out.println("Stock updated successfully for book with id: " + bookId);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     private Book getBookFromResultSet(ResultSet resultSet) throws SQLException {
@@ -116,4 +136,6 @@ public class BookRepositoryMySQL implements BookRepository {
                 .setPrice(resultSet.getDouble("price"))
                 .build();
     }
+
+
 }

@@ -23,7 +23,7 @@ public class BookView {
 
     public BookView() {
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_library", "root", "");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library", "root", "Caramidacupatratele1");
             bookRepository = new BookRepositoryMySQL(connection);
         } catch (SQLException e) {
             e.printStackTrace();
