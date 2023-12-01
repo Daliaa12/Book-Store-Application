@@ -1,6 +1,5 @@
 package launcher;
 
-import controller.CustomerController;
 import controller.LoginController;
 import database.DatabaseConnectionFactory;
 import javafx.stage.Stage;
@@ -12,8 +11,6 @@ import repository.user.UserRepository;
 import repository.user.UserRepositoryMySQL;
 import service.user.AuthenticationService;
 import service.user.AuthenticationServiceMySQL;
-import view.BookView;
-import view.CustomerView;
 import view.LoginView;
 
 import java.sql.Connection;

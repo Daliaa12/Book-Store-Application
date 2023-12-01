@@ -1,7 +1,6 @@
 package controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.stage.Stage;
 import model.User;
 import model.validator.Notification;
 import service.user.AuthenticationService;
@@ -21,11 +20,6 @@ public class LoginController {
         this.loginView.addLoginButtonListener(new LoginButtonListener());
         this.loginView.addRegisterButtonListener(new RegisterButtonListener());
     }
-    private void openCustomerViewStage() {
-        Stage customerStage = new Stage();
-        CustomerView customerView = new CustomerView(customerStage);
-        customerStage.show();
-    }
 
     private class LoginButtonListener implements EventHandler<ActionEvent> {
 
@@ -40,7 +34,7 @@ public class LoginController {
                 loginView.setActionTargetText(loginNotification.getFormattedErrors());
             }else{
                 loginView.setActionTargetText("LogIn Successfull!");
-                openCustomerViewStage();
+                CustomerController controller=new CustomerController(new CustomerView(loginView.getStage()));
             }
         }
     }
@@ -58,7 +52,7 @@ public class LoginController {
                 loginView.setActionTargetText(registerNotification.getFormattedErrors());
             } else {
                 loginView.setActionTargetText("Register successful!");
-                openCustomerViewStage();
+                CustomerController controller=new CustomerController(new CustomerView(loginView.getStage()));
             }
         }
     }

@@ -20,7 +20,6 @@ import java.util.List;
 public class BookView {
     private BookRepositoryMySQL bookRepository;
     private TableView<Book> table;
-    private Stage stage;
 
     public BookView() {
         try {
@@ -65,9 +64,6 @@ public class BookView {
         stage.setTitle("View books");
         Scene scene = new Scene(vBox);
         stage.setScene(scene);
-        stage.show();
-    }
-    public void showStage() {
         stage.show();
     }
 
