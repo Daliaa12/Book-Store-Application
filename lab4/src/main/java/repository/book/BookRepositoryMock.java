@@ -39,5 +39,13 @@ public class BookRepositoryMock implements BookRepository {
     @Override
     public void updateStock(Long bookId, int newStock) {
     }
+    @Override
+    public Boolean deleteBook(Long id){
 
+        return null;
+    }
+    @Override
+    public void updatePrice(Long bookId, Double price){
+
+    }
 }

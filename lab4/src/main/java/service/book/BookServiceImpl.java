@@ -51,4 +51,14 @@ public class BookServiceImpl implements BookService {
             return Boolean.FALSE;
         }
     }
+    @Override
+    public Boolean deleteBook(Long id){
+        return bookRepository.deleteBook(id);
+    }
+    public void updateStock(Long bookId, int newStock){
+        bookRepository.updateStock(bookId,newStock);
+    }
+    public void updatePrice(Long bookId, Double price){
+        bookRepository.updatePrice(bookId,price);
+    }
 }

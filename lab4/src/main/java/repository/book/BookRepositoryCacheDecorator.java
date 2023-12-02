@@ -44,4 +44,12 @@ public class BookRepositoryCacheDecorator extends BookRepositoryDecorator{
     public void updateStock(Long bookId, int newStock) {
 
     }
+    @Override
+    public Boolean deleteBook(Long bookId) {
+        return null;
+    }
+    @Override
+    public void updatePrice(Long bookId, Double price){
+
+    }
 }

@@ -38,6 +38,19 @@ public class EmployeeView {
     }
 
     private void initializeFields(GridPane gridPane) {
+
+        Text deleteInfoLabel = new Text("If you want to delete a book, enter only the ID.");
+        Text createInfoLabel = new Text("If you want to create a book, please enter Author, Title, Published Date, Stock, and Price.");
+        Text updateInfoLabel = new Text("If you want to update a book, enter the ID of the book you want to update and the Price or Stock.");
+
+        deleteInfoLabel.setStyle("-fx-font-size: 12; -fx-fill: #e74c3c;");
+        createInfoLabel.setStyle("-fx-font-size: 12; -fx-fill: #2ecc71;");
+        updateInfoLabel.setStyle("-fx-font-size: 12; -fx-fill: #3498db;");
+
+        gridPane.add(deleteInfoLabel, 0, 6, 2, 1);
+        gridPane.add(createInfoLabel, 0, 9, 2, 1);
+        gridPane.add(updateInfoLabel, 0, 10, 2, 1);
+
         Label idLabel = new Label("ID:");
         Label authorLabel = new Label("Author:");
         Label titleLabel = new Label("Title:");

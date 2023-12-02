@@ -91,6 +91,29 @@ public class BookRepositoryMySQL implements BookRepository {
         }
 
     }
+    @Override
+    public Boolean deleteBook(Long id) {
+        String sql = "DELETE FROM book WHERE id=?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, id);
+
+            int rowsDeleted = preparedStatement.executeUpdate();
+            if (rowsDeleted == 0) {
+                System.out.println("Book not found with id: " + id);
+                return Boolean.FALSE;
+            } else {
+                System.out.println("Book deleted successfully with id: " + id);
+                return Boolean.TRUE;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 
     @Override
     public void removeAll() {
@@ -118,6 +141,25 @@ public class BookRepositoryMySQL implements BookRepository {
                 System.out.println("Book not found with id: " + bookId);
             } else {
                 System.out.println("Stock updated successfully for book with id: " + bookId);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public void updatePrice(Long bookId, Double price) {
+        String sql = "UPDATE book SET price = ? WHERE id = ?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDouble(1, price);
+            preparedStatement.setLong(2, bookId);
+
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated == 0) {
+                System.out.println("Book not found with id: " + bookId);
+            } else {
+                System.out.println("Price updated successfully for book with id: " + bookId);
             }
         } catch (SQLException e) {
             e.printStackTrace();

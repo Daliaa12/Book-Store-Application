@@ -1,12 +1,18 @@
 package controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import model.Role;
 import model.User;
 import model.validator.Notification;
 import service.book.BookService;
 import service.user.AuthenticationService;
 import view.CustomerView;
+import view.EmployeeView;
 import view.LoginView;
+
+import java.util.List;
+
+import static database.Constants.Roles.*;
 
 public class LoginController {
 
@@ -35,8 +41,23 @@ public class LoginController {
                 loginView.setActionTargetText(loginNotification.getFormattedErrors());
             }else{
                 loginView.setActionTargetText("LogIn Successfull!");
-                CustomerView customerView = new CustomerView(loginView.getStage());
-                CustomerController customerController = new CustomerController(customerView, bookService);
+                User user = loginNotification.getResult();
+                List<Role> roles = user.getRoles();
+                String role = roles.get(0).getRole();
+                System.out.println(role);
+                switch (role){
+                    case ADMINISTRATOR: break;
+                    case EMPLOYEE: {
+                        EmployeeView employeeView=new EmployeeView(loginView.getStage());
+                        EmployeeController employeeController=new EmployeeController(employeeView,bookService);
+                        break;
+                    }
+                    case CUSTOMER: {
+                        CustomerView customerView = new CustomerView(loginView.getStage());
+                        CustomerController customerController = new CustomerController(customerView, bookService);
+                        break;
+                    }
+                }
             }
         }
     }

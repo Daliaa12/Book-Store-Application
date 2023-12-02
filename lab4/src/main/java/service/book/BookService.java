@@ -12,6 +12,8 @@ public interface BookService {
     boolean save(Book book);
 
     int getAgeOfBook(Long id);
-    public Boolean buyBook(Long bookId, int quantity);
-
+    Boolean buyBook(Long bookId, int quantity);
+    Boolean deleteBook(Long id);
+    void updateStock(Long bookId, int newStock);
+    void updatePrice(Long bookId, Double price);
 }
