@@ -6,6 +6,8 @@ import model.User;
 import model.validator.Notification;
 import service.book.BookService;
 import service.user.AuthenticationService;
+import service.user.UserService;
+import view.AdminView;
 import view.CustomerView;
 import view.EmployeeView;
 import view.LoginView;
@@ -19,11 +21,13 @@ public class LoginController {
     private final LoginView loginView;
     private final AuthenticationService authenticationService;
     private final BookService bookService;
+    private final UserService userService;
 
-    public LoginController(LoginView loginView, AuthenticationService authenticationService,BookService bookService) {
+    public LoginController(LoginView loginView, AuthenticationService authenticationService,BookService bookService,UserService userService) {
         this.loginView = loginView;
         this.authenticationService = authenticationService;
         this.bookService = bookService;
+        this.userService=userService;
         this.loginView.addLoginButtonListener(new LoginButtonListener());
         this.loginView.addRegisterButtonListener(new RegisterButtonListener());
     }
@@ -46,7 +50,12 @@ public class LoginController {
                 String role = roles.get(0).getRole();
                 System.out.println(role);
                 switch (role){
-                    case ADMINISTRATOR: break;
+                    case ADMINISTRATOR: {
+                        AdminView adminView=new AdminView(loginView.getStage());
+                        AdminController adminController=new AdminController(adminView,userService);
+                        break;
+                    }
+
                     case EMPLOYEE: {
                         EmployeeView employeeView=new EmployeeView(loginView.getStage());
                         EmployeeController employeeController=new EmployeeController(employeeView,bookService);

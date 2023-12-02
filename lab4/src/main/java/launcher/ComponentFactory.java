@@ -3,6 +3,7 @@ package launcher;
 import controller.LoginController;
 import database.DatabaseConnectionFactory;
 import javafx.stage.Stage;
+import model.User;
 import repository.book.BookRepository;
 import repository.book.BookRepositoryMySQL;
 import repository.security.RightsRolesRepository;
@@ -13,8 +14,9 @@ import service.book.BookService;
 import service.book.BookServiceImpl;
 import service.user.AuthenticationService;
 import service.user.AuthenticationServiceImpl;
-import view.EmployeeView;
-import view.LoginView;
+import service.user.UserService;
+import service.user.UserServiceImpl;
+import view.*;
 
 import java.sql.Connection;
 
@@ -27,7 +29,8 @@ public class ComponentFactory {
     private final BookRepository bookRepository;
     private static ComponentFactory instance;
     private final BookService bookService;
-   // private final EmployeeView employeeView;
+    private final UserService userService;
+
 
     public static ComponentFactory getInstance(Boolean componentsForTests, Stage stage){
         if (instance == null){
@@ -45,8 +48,9 @@ public class ComponentFactory {
         this.loginView = new LoginView(stage);
         this.bookRepository = new BookRepositoryMySQL(connection);
         this.bookService=new BookServiceImpl(getBookRepository());
-        this.loginController = new LoginController(loginView, authenticationService,bookService);
-       // this.employeeView=new EmployeeView(stage);
+        this.userService=new UserServiceImpl(getUserRepository());
+        this.loginController = new LoginController(loginView, authenticationService,bookService,userService);
+
     }
 
     public AuthenticationService getAuthenticationService(){
@@ -61,17 +65,17 @@ public class ComponentFactory {
         return rightsRolesRepository;
     }
 
-    //public LoginView getLoginView(){
-       // return loginView;
-   // }
+    public LoginView getLoginView(){
+        return loginView;
+    }
 
     public BookRepository getBookRepository(){
         return bookRepository;
     }
 
-  //  public LoginController getLoginController(){
-       // return loginController;
-   //}
+    public LoginController getLoginController(){
+        return loginController;
+   }
 
 
 }

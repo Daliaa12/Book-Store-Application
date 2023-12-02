@@ -1,12 +1,11 @@
-package repository.user;
+package service.user;
 
 import model.User;
 import model.validator.Notification;
 
-import java.util.*;
+import java.util.List;
 
-public interface UserRepository {
-
+public interface UserService {
     List<User> findAll();
 
     Notification<User> findByUsernameAndPassword(String username, String password);
@@ -16,6 +15,7 @@ public interface UserRepository {
     void removeAll();
 
     boolean existsByUsername(String username);
+
     Boolean deleteUser(Long id);
     void updateUsername(Long userId, String username);
     void updatePassword(Long userId, String password);

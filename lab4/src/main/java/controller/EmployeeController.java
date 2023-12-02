@@ -43,7 +43,7 @@ private final BookService bookService;
             if (isBookSaved){
                 employeeView.setActionTargetText("Book created successfully!");
             } else {
-                employeeView.setActionTargetText("Failed to create the book, check if doesn't already exist!");
+                employeeView.setActionTargetText("Failed to create the book, check if it doesn't already exist!");
             }
         }
     }

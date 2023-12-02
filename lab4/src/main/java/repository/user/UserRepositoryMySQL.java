@@ -1,5 +1,7 @@
 package repository.user;
+import model.Book;
 import model.User;
+import model.builder.BookBuilder;
 import model.builder.UserBuilder;
 import model.validator.Notification;
 import repository.security.RightsRolesRepository;
@@ -9,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import static database.Constants.Tables.USER;
@@ -27,7 +30,21 @@ public class UserRepositoryMySQL implements UserRepository {
 
     @Override
     public List<User> findAll() {
-        return null;
+        String sql = "SELECT * FROM user ;";
+        List<User> users = new ArrayList<>();
+        try{
+            Statement statement = connection.createStatement();
+
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()){
+                users.add(getUserFromResultSet(resultSet));
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return users;
     }
 
     // SQL Injection Attacks should not work after fixing functions
@@ -104,6 +121,27 @@ public class UserRepositoryMySQL implements UserRepository {
             e.printStackTrace();
         }
     }
+    @Override
+    public Boolean deleteUser(Long id) {
+        String sql = "DELETE FROM user WHERE id=?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, id);
+
+            int rowsDeleted = preparedStatement.executeUpdate();
+            if (rowsDeleted == 0) {
+                System.out.println("User not found with id: " + id);
+                return Boolean.FALSE;
+            } else {
+                System.out.println("User deleted successfully with id: " + id);
+                return Boolean.TRUE;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     @Override
     public boolean existsByUsername(String email) {
@@ -124,5 +162,54 @@ public class UserRepositoryMySQL implements UserRepository {
             return false;
         }
     }
+
+    @Override
+    public void updatePassword(Long userId, String password) {
+        String sql = "UPDATE user SET password = ? WHERE id = ?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, password);
+            preparedStatement.setLong(2, userId);
+
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated == 0) {
+                System.out.println("User not found with id: " + userId);
+            } else {
+                System.out.println("Password updated successfully for user with id: " + userId);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public void updateUsername(Long userId, String username) {
+        String sql = "UPDATE user SET username = ? WHERE id = ?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, username);
+            preparedStatement.setLong(2, userId);
+
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated == 0) {
+                System.out.println("User not found with id: " + username);
+            } else {
+                System.out.println("Username updated successfully for user with id: " + userId);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private User getUserFromResultSet(ResultSet resultSet) throws SQLException {
+        return new UserBuilder()
+                .setId(resultSet.getLong("id"))
+                .setUsername(resultSet.getString("username"))
+                .setPassword(resultSet.getString("password"))
+                .build();
+    }
+
+
 
 }
