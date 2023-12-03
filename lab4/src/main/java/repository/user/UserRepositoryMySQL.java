@@ -46,6 +46,26 @@ public class UserRepositoryMySQL implements UserRepository {
         }
         return users;
     }
+    @Override
+    public List <User> findAllEmployee(){
+        String sql = "SELECT u.* FROM user u "+
+                "INNER JOIN user_role ur ON u.id = ur.user_id "+
+                "WHERE ur.role_id = 2";
+        List<User> users = new ArrayList<>();
+        try{
+            Statement statement = connection.createStatement();
+
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()){
+                users.add(getUserFromResultSet(resultSet));
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return users;
+    }
 
     // SQL Injection Attacks should not work after fixing functions
     // Be careful that the last character in sql injection payload is an empty space

@@ -60,7 +60,7 @@ public class UserView {
     }
 
     public ObservableList<User> getUsers() {
-        List<User> bookList = userRepository.findAll();
+        List<User> bookList = userRepository.findAllEmployee();
         return FXCollections.observableArrayList(bookList);
     }
 }

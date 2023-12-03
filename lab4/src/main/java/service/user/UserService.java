@@ -13,6 +13,7 @@ public interface UserService {
     boolean save(User user);
 
     void removeAll();
+    List <User> findAllEmployee();
 
     boolean existsByUsername(String username);
 

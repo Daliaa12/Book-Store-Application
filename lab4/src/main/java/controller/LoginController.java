@@ -52,7 +52,7 @@ public class LoginController {
                 switch (role){
                     case ADMINISTRATOR: {
                         AdminView adminView=new AdminView(loginView.getStage());
-                        AdminController adminController=new AdminController(adminView,userService);
+                        AdminController adminController=new AdminController(adminView,userService,authenticationService);
                         break;
                     }
 

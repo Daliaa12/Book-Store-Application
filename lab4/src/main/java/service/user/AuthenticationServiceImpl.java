@@ -27,7 +27,33 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public Notification<Boolean> register(String username, String password) {
 
-        Role customerRole = rightsRolesRepository.findRoleByTitle(ADMINISTRATOR);
+        Role customerRole = rightsRolesRepository.findRoleByTitle(CUSTOMER);
+
+        User user = new UserBuilder()
+                .setUsername(username)
+                .setPassword(password)
+                .setRoles(Collections.singletonList(customerRole))
+                .build();
+
+        UserValidator userValidator = new UserValidator(user);
+
+        boolean userValid = userValidator.validate();
+        Notification<Boolean> userRegisterNotification = new Notification<>();
+
+        if (!userValid){
+            userValidator.getErrors().forEach(userRegisterNotification::addError);
+            userRegisterNotification.setResult(Boolean.FALSE);
+        } else {
+            user.setPassword(hashPassword(password));
+            userRegisterNotification.setResult(userRepository.save(user));
+        }
+
+        return userRegisterNotification;
+    }
+    @Override
+    public Notification<Boolean> registerEmployee(String username, String password) {
+
+        Role customerRole = rightsRolesRepository.findRoleByTitle(EMPLOYEE);
 
         User user = new UserBuilder()
                 .setUsername(username)
@@ -60,8 +86,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public boolean logout(User user) {
         return false;
     }
-
-    private String hashPassword(String password) {
+    @Override
+    public String hashPassword(String password) {
         try {
             // Sercured Hash Algorithm - 256
             // 1 byte = 8 biți

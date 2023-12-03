@@ -19,4 +19,5 @@ public interface UserRepository {
     Boolean deleteUser(Long id);
     void updateUsername(Long userId, String username);
     void updatePassword(Long userId, String password);
+    List <User> findAllEmployee();
 }
