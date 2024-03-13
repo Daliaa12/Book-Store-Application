@@ -26,7 +26,7 @@ public class BookView {
     public BookView(LoginController loginController) {
         this.loginController = loginController;
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_library", "root", "Caramidacupatratele1");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_library", "root", "");
             bookRepository = new BookRepositoryMySQL(connection);
         } catch (SQLException e) {
             e.printStackTrace();
